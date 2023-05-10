@@ -3,7 +3,10 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-
+use App\Models\Reminder;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Mail as FacadesMail;
+use Illuminate\Support\Facades\Mail;
 class ReminderCron extends Command
 {
     /**
@@ -27,7 +30,18 @@ class ReminderCron extends Command
      */
     public function handle()
     {
-        
+       $now = Carbon::now();
+       
+        if(Reminder::where('reminder',$now )){
+            // Mail::send('savantruly76@gmail.com')->send('hello');
+            $email = "savantruly76@gmail.com";
+            $msg = "mail send";
+            Mail::raw($msg, function ($message) use ($email) {
+                $message->to($email);
+                $message->subject('Planning');
+            });
+            
+        }
         return Command::SUCCESS;
     }
 }
