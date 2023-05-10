@@ -32,16 +32,14 @@ class ReminderCron extends Command
     {
        $now = Carbon::now();
        
-        if(Reminder::where('reminder',$now )){
-            // Mail::send('savantruly76@gmail.com')->send('hello');
-            $email = "savantruly76@gmail.com";
-            $msg = "mail send";
-            Mail::raw($msg, function ($message) use ($email) {
-                $message->to($email);
-                $message->subject('Planning');
-            });
-            
-        }
-        return Command::SUCCESS;
+       if (Reminder::where('reminder', $now)) {
+        
+        $email = "vivek.sakhiya@drcsystems.com";
+        $msg = "mail send testing";
+        Mail::raw($msg, function ($message) use ($email) {
+            $message->to($email);
+            $message->subject('test');
+        });
+    }
     }
 }
