@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Reminder extends Model
 {
     use HasFactory;
+    protected $table = 'reminders';
+    
+    protected $fillable = [
+        'title',
+        'description',
+        'reminder',
+    ];
 }

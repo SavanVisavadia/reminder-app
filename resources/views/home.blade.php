@@ -13,10 +13,8 @@
                             {{ session('status') }}
                         </div>
                     @endif
-
-                    {{ __('You are logged in!') }}
-
-                    @foreach ($data as $reminder)
+                    <a href="{{route('create')}}" class="btn btn-primary">Create Reminder</a>
+                   
                     <table>
                         <tr>
                             <th>Title</th>
@@ -24,14 +22,19 @@
                             <th>Reminder</th>
                             <th>Action</th>
                         </tr>
+                        @foreach ($data as $reminder)
                         <tr>
                             <td>{{$reminder->title}}</td>
                             <td>{{$reminder->description}}</td>
                             <td>{{$reminder->reminder}}</td>
-                            <td><button type="button" class="btn btn-primary">Primary</button></td>
+                            <td>
+                                <a href="{{route('edit',$reminder->id)}}" class="btn btn-primary">Edit</a>
+                                <a href="{{route('delete',$reminder->id)}}" class="btn btn-primary">Delete</a> 
+                            </td>
                         </tr>
+                        @endforeach
                     </table>
-                    @endforeach
+                   
 
                     
                 </div>

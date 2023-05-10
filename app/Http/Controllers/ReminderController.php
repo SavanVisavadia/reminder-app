@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\reminder;
+use App\Models\Reminder;
 use Illuminate\Http\Request;
 
 class ReminderController extends Controller
@@ -24,7 +24,7 @@ class ReminderController extends Controller
      */
     public function create()
     {
-        //
+        return view('create');
     }
 
     /**
@@ -35,7 +35,15 @@ class ReminderController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'title' => 'required',
+            'description' => 'required',
+            'reminder' => 'required',
+        ]);
+      
+        Reminder::create($request->all());
+       
+        return redirect()->route('home');
     }
 
     /**
@@ -55,9 +63,11 @@ class ReminderController extends Controller
      * @param  \App\Models\reminder  $reminder
      * @return \Illuminate\Http\Response
      */
-    public function edit(reminder $reminder)
+    public function edit(Request $request, $id)
     {
-        //
+        $data = Reminder::where('id',$id)->first();
+
+        return view('edit',compact('data'));
     }
 
     /**
@@ -69,7 +79,16 @@ class ReminderController extends Controller
      */
     public function update(Request $request, reminder $reminder)
     {
-        //
+        
+        $request->validate([
+            'title' => 'required',
+            'description' => 'required',
+            'reminder' => 'required',
+        ]);
+      
+        Reminder::where('id',$request->id)->update(['title'=>$request->title, 'description'=>$request->description, 'reminder'=>$request->reminder,]);
+      
+        return redirect()->route('home');
     }
 
     /**
@@ -78,8 +97,9 @@ class ReminderController extends Controller
      * @param  \App\Models\reminder  $reminder
      * @return \Illuminate\Http\Response
      */
-    public function destroy(reminder $reminder)
+    public function destroy(reminder $reminder, $id)
     {
-        //
+        Reminder::where('id',$id)->delete();
+        return redirect()->route('home');
     }
 }
