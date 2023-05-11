@@ -5,10 +5,14 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\Models\Reminder;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Mail as FacadesMail;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Foundation\Auth\User;
+
 class ReminderCron extends Command
 {
+    
+
     /**
      * The name and signature of the console command.
      *
@@ -30,16 +34,30 @@ class ReminderCron extends Command
      */
     public function handle()
     {
-       $now = Carbon::now();
-       
-       if (Reminder::where('reminder', $now)) {
+        $now = Carbon::now();
+        $newDateTime = Carbon::now()->subMinutes(1);
+       $users = User::all();
+     
+	
+	foreach($users as $user) {
+
+        $reminder = Reminder::get();
         
-        $email = "vivek.sakhiya@drcsystems.com";
-        $msg = "mail send testing";
-        Mail::raw($msg, function ($message) use ($email) {
-            $message->to($email);
-            $message->subject('test');
-        });
-    }
+        foreach($reminder as $val){
+            if ($val->reminder > $newDateTime && $val->reminder < $now) {
+        
+                $email = $user->email;
+                $msg = $val->description;
+                dd($msg);
+                Mail::raw($msg, function ($message) use ($email) {
+                    $message->to($email);
+                    $message->subject('Reminder');
+                });
+            }
+        }
+		
+	}
+       
+       
     }
 }
