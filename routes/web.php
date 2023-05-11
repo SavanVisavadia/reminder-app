@@ -26,4 +26,4 @@ Route::get('/editReminder/{id}', [App\Http\Controllers\ReminderController::class
 Route::get('/deleteReminder', [App\Http\Controllers\ReminderController::class, 'delete'])->name('delete');
 Route::post('/storeReminder', [App\Http\Controllers\ReminderController::class, 'store'])->name('store');
 Route::post('/updateReminder', [App\Http\Controllers\ReminderController::class, 'update'])->name('update');
-Route::any('/deleteReminder/{id}', [App\Http\Controllers\ReminderController::class, 'destroy'])->name('delete');
+Route::delete('/deleteReminder/{id}', [App\Http\Controllers\ReminderController::class, 'destroy'])->name('delete');

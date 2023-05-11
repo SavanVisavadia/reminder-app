@@ -100,6 +100,8 @@ class ReminderController extends Controller
     public function destroy(reminder $reminder, $id)
     {
         Reminder::where('id',$id)->delete();
-        return redirect()->route('home');
+        return response()->json([
+            'success' => 'Record deleted successfully!'
+        ]);
     }
 }

@@ -28,18 +28,62 @@
                             <td>{{$reminder->description}}</td>
                             <td>{{$reminder->reminder}}</td>
                             <td>
+                            <!-- <meta name="csrf-token" content="{{ csrf_token() }}"> -->
                                 <a href="{{route('edit',$reminder->id)}}" class="btn btn-primary">Edit</a>
-                                <a href="{{route('delete',$reminder->id)}}" class="btn btn-primary">Delete</a> 
+                                <a 
+                        href="javascript:void(0)" 
+                        id="delete-user" 
+                        data-url="{{ route('delete', $reminder->id) }}" 
+                        class="btn btn-danger"
+                        >Delete</a>
                             </td>
                         </tr>
                         @endforeach
                     </table>
                    
-
                     
                 </div>
             </div>
         </div>
     </div>
+    <script type="text/javascript">
+      
+    $(document).ready(function () {
+   
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+      
+        /*------------------------------------------
+        --------------------------------------------
+        When click user on Show Button
+        --------------------------------------------
+        --------------------------------------------*/
+        $('body').on('click', '#delete-user', function () {
+  
+          var userURL = $(this).data('url');
+          var trObj = $(this);
+  
+          if(confirm("Are you sure you want to remove this user?") == true){
+                $.ajax({
+                    url: userURL,
+                    type: 'DELETE',
+                    dataType: 'json',
+                    success: function(data) {
+                        alert(data.success);
+                        trObj.parents("tr").remove();
+                        window.location.reload();
+                    }
+                });
+          }
+  
+       });
+        
+    });
+    
+</script>
 </div>
 @endsection
+
